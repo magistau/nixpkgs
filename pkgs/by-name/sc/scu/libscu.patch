@@ -1,0 +1,18 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -10,3 +10,6 @@ lto = true
+ [dependencies]
+ regex-lite = { version = "0.1.5" }
+ libscu = { version = "2.1.0", features = ["full"] }
++
++[patch.crates-io]
++libscu.path = "./libscu/"
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -11,6 +11,4 @@
+ [[package]]
+ name = "libscu"
+ version = "2.1.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d97e2ac092ab402ac7b2571efe0195948121d6025b8014db846952f8ae016b8f"
+ dependencies = [

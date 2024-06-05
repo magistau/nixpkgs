@@ -84,6 +84,7 @@ let
     overrideExisting
     packagesFromDirectoryRecursive
     pipe
+    pipe'
     range
     recursiveUpdateUntil
     removePrefix
@@ -198,6 +199,31 @@ runTests {
       (map (s: s + "\n"))
       concatStrings
     ];
+    expected = ''
+      3
+      4
+    '';
+  };
+
+  testPipe' = {
+    expr = pipe' [
+      (x: x + 2) # 2 + 2 = 4
+      (x: x * 2) # 4 * 2 = 8
+    ] 2;
+    expected = 8;
+  };
+
+  testPipe'Empty = {
+    expr = pipe' [] 2;
+    expected = 2;
+  };
+
+  testPipe'Strings = {
+    expr = pipe' [
+      (map toString)
+      (map (s: s + "\n"))
+      concatStrings
+    ] [ 3 4 ];
     expected = ''
       3
       4

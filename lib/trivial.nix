@@ -11,7 +11,9 @@ let
     toBaseDigits
     version
     versionSuffix
-    warn;
+    warn
+    flip
+    pipe;
 in {
 
   ## Simple (higher order) functions
@@ -131,6 +133,60 @@ in {
   # This would confuse users, because the order of the functions
   # in the list is not clear. With pipe, it’s obvious that it
   # goes first-to-last. With `compose`, not so much.
+
+  /*
+    Pipes a value through a list of functions, left to right. Same as `pipe`, but arguments flipped.
+
+    # Inputs
+
+    `fns`
+
+    : List of functions to apply sequentially.
+
+    `value`
+
+    : Value to start piping.
+
+    # Type
+
+    ```
+    pipe' :: [<functions>] -> a -> <return type of last function>
+    ```
+
+    # Examples
+
+    :::{.example}
+    ## `lib.trivial.pipe'` usage example
+    ```nix
+    pipe' [
+        (x: x + 2)  # 2 + 2 = 4
+        (x: x * 2)  # 4 * 2 = 8
+      ] 2
+    => 8
+
+    # ideal to do text transformations
+    pipe' [
+
+      # create the cp command
+      (map (file: ''cp "${src}/${file}" $out\n''))
+
+      # concatenate all commands into one string
+      lib.concatStrings
+
+      # make that string into a nix derivation
+      (pkgs.runCommand "copy-to-out" {})
+
+    ] [ "a/b" "a/c" ]
+    => <drv which copies all files to $out>
+
+    The output type of each function has to be the input type
+    of the next function, and the last function returns the
+    final value.
+    ```
+
+    :::
+  */
+  pipe' = flip pipe;
 
   ## Named versions corresponding to some builtin operators.
 

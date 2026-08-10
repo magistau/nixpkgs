@@ -29,7 +29,7 @@ let
     drv'.passedAttrs
     // {
       inherit (drv') stdenv;
-      sourceSuffix = true;
+      name = "${drv'.name}-source";
     };
 
   canEvalDrv = drv: (builtins.tryEval drv.drvPath).success;
@@ -62,14 +62,13 @@ let
   helloDrvSimpleSrc = srcOnly helloDrvSimple;
   helloDrvSimpleSrcFreeform = srcOnly {
     inherit (helloDrvSimple)
-      name
       pname
       version
       src
       patches
       stdenv
       ;
-    sourceSuffix = true;
+    name = "${helloDrvSimple.name}-source";
   };
 
   # Test the issue reported in https://github.com/NixOS/nixpkgs/issues/269539

@@ -35,10 +35,7 @@
   A derivation that runs a derivation's `unpackPhase` and `patchPhase`, and then copies the result to the output path.
 */
 
-{
-  sourceSuffix ? lib.isDerivation attrs,
-  ...
-}@attrs:
+attrs:
 let
   argsToOverride =
     args:
@@ -47,7 +44,7 @@ let
         let
           name = args.name or "${args.pname}-${args.version}";
         in
-        if sourceSuffix then "${name}-source" else name;
+        if lib.isDerivation attrs then "${name}-source" else name;
 
       outputs = [ "out" ];
 
@@ -103,7 +100,7 @@ else
     args =
       lib.warnIf (lib.isDerivation attrs)
         "srcOnly: derivations not created by a variant of stdenv.mkDerivation are not supported. Code relying on behaviour of srcOnly with non-stdenv derivations may break in the future."
-        attrs.drvAttrs or (lib.removeAttrs attrs [ "sourceSuffix" ]);
+        attrs.drvAttrs or attrs;
     stdenv = args.stdenv or (lib.warn "srcOnly: stdenv not provided, using stdenvNoCC" stdenvNoCC);
     drv = stdenv.mkDerivation (args // argsToOverride args);
   in

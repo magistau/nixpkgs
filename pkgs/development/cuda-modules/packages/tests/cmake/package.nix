@@ -48,7 +48,7 @@ let
   };
 
   cmakeSrc = srcOnly {
-    name = "cmake-unpacked";
+    name = "cmake-unpacked-source";
     inherit (cmake) src version;
     stdenv = stdenvNoCC;
   };

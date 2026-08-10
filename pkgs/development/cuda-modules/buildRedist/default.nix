@@ -252,6 +252,7 @@ extendMkDerivation {
           strictDeps = true;
           stdenv = stdenvNoCC;
           inherit (finalAttrs) pname version;
+          name = "${finalAttrs.pname}-${finalAttrs.version}-source";
           src = fetchurl {
             url = mkRedistUrl finalAttrs.passthru.redistName relative_path;
             inherit sha256;

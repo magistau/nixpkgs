@@ -29,7 +29,7 @@ stdenv.mkDerivation (finalAttrs: {
   checkPhase =
     let
       gc = srcOnly {
-        name = "GC_WII_COMPILERS";
+        name = "GC_WII_COMPILERS-source";
         src = fetchzip {
           url = "https://files.decomp.dev/compilers_20230715.zip";
           hash = "sha256-IX3byvEUVJB6Rmc+NqO9ZNt1jl95nQpEIqxbHI+uUio=";

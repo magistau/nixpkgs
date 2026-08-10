@@ -168,7 +168,7 @@
   '',
 
   ghcSrc ? srcOnly {
-    name = "ghc-${version}"; # -source appended by srcOnly
+    name = "ghc-${version}-source";
     src = (if rev != null then fetchgit else fetchurl) (
       {
         inherit url sha256;

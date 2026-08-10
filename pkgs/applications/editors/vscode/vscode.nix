@@ -80,7 +80,7 @@ buildVscode {
 
   # As tests run without networking, we need to download this for the Remote SSH server
   vscodeServer = srcOnly {
-    name = "vscode-server-${rev}.tar.gz";
+    name = "vscode-server-${rev}.tar.gz-source";
     src = fetchurl {
       name = "vscode-server-${rev}.tar.gz";
       url = "https://update.code.visualstudio.com/commit:${rev}/server-linux-x64/stable";

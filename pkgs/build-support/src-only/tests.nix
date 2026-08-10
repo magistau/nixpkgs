@@ -1,5 +1,4 @@
 {
-  lib,
   runCommand,
   srcOnly,
   hello,
@@ -27,7 +26,11 @@ let
         }
       );
     in
-    drv'.passedAttrs // { inherit (drv') stdenv; };
+    drv'.passedAttrs
+    // {
+      inherit (drv') stdenv;
+      sourceSuffix = true;
+    };
 
   canEvalDrv = drv: (builtins.tryEval drv.drvPath).success;
 
@@ -66,6 +69,7 @@ let
       patches
       stdenv
       ;
+    sourceSuffix = true;
   };
 
   # Test the issue reported in https://github.com/NixOS/nixpkgs/issues/269539

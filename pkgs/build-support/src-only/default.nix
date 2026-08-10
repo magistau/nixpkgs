@@ -36,7 +36,7 @@
 */
 
 {
-  sourceSuffix ? true,
+  sourceSuffix ? lib.isDerivation attrs,
   ...
 }@attrs:
 let
@@ -76,7 +76,6 @@ let
       outputMan = "out";
       outputDevman = "out";
       outputInfo = "out";
-
     }
     // lib.optionalAttrs (lib.isAttrs args.outputChecks or null) {
       # If the original derivation includes outputChecks for output we are removing, we need to reset it to an empty check.
@@ -104,7 +103,7 @@ else
     args =
       lib.warnIf (lib.isDerivation attrs)
         "srcOnly: derivations not created by a variant of stdenv.mkDerivation are not supported. Code relying on behaviour of srcOnly with non-stdenv derivations may break in the future."
-        attrs.drvAttrs or attrs;
+        attrs.drvAttrs or (lib.removeAttrs attrs [ "sourceSuffix" ]);
     stdenv = args.stdenv or (lib.warn "srcOnly: stdenv not provided, using stdenvNoCC" stdenvNoCC);
     drv = stdenv.mkDerivation (args // argsToOverride args);
   in
